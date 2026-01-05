@@ -11,6 +11,7 @@ import { Phone, MessageCircle, Mail, Check, ChevronRight, Clock, MapPin, Shield,
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PhotoUploader } from "@/components/PhotoUploader";
 
 // Contact info
 const PHONE = "090-5306-0197";
@@ -102,10 +103,17 @@ export default function Home() {
       {/* Hero Section */}
       <section ref={heroRef} className="relative pt-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
+          {/* Desktop image - landscape */}
           <img 
-            src="/images/hero-garden.jpg" 
-            alt="庭木の剪定作業" 
-            className="w-full h-full object-cover"
+            src="/images/hero-team-desktop.jpg" 
+            alt="トトノのスタッフ - 若い男性職人と女性サポートスタッフ" 
+            className="hidden md:block w-full h-full object-cover object-center"
+          />
+          {/* Mobile image - portrait optimized */}
+          <img 
+            src="/images/hero-team-mobile.jpg" 
+            alt="トトノのスタッフ - 若い男性職人と女性サポートスタッフ" 
+            className="md:hidden w-full h-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/60 to-transparent" />
         </div>
@@ -913,11 +921,17 @@ export default function Home() {
                     </div>
                   </div>
                   
-                  <div className="bg-secondary/50 rounded-xl p-4">
-                    <p className="text-sm text-muted-foreground">
-                      <strong>写真があるとより正確な概算が可能です</strong><br />
-                      LINEで写真を送っていただくか、このフォーム送信後にメールに添付してお送りください。
-                    </p>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      写真添付（最大10枚まで、各1枚20MB以下）
+                    </label>
+                    <div className="bg-secondary/50 rounded-xl p-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        <strong>写真があるとより正確な概算が可能です</strong><br />
+                        庭木や草の状態がわかる写真をお送りください。
+                      </p>
+                      <PhotoUploader />
+                    </div>
                   </div>
                   
                   <div className="flex items-start gap-2">
