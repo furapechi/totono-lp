@@ -229,6 +229,71 @@
     transform: translateY(100%);
     opacity: 0;
   }
+  
+  /* Campaign banner pulse animation */
+  .campaign-banner {
+    @apply relative overflow-hidden;
+    animation: bannerPulse 3s ease-in-out infinite;
+  }
+  
+  .campaign-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Stats counter animation */
+  .stats-number {
+    @apply font-black;
+    animation: countPop 0.6s ease-out forwards;
+  }
+  
+  /* Scroll indicator bounce */
+  .scroll-indicator {
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+  
+  /* Urgency badge animation */
+  .urgency-badge {
+    animation: urgencyPulse 2s ease-in-out infinite;
+  }
+  
+  /* Trust seal hover effect */
+  .trust-seal {
+    @apply transition-all duration-300;
+  }
+  
+  .trust-seal:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px -5px rgba(30, 86, 49, 0.3);
+  }
+  
+  /* CTA button attention animation */
+  .cta-attention {
+    animation: ctaAttention 3s ease-in-out infinite;
+  }
+  
+  /* Quick contact badge */
+  .quick-contact {
+    @apply relative;
+  }
+  
+  .quick-contact::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    background: #ff6b4a;
+    border-radius: 50%;
+    animation: livePulse 1.5s ease-in-out infinite;
+  }
 }
 
 /* Custom animations */
@@ -268,6 +333,97 @@
   }
 }
 
+@keyframes bannerPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 74, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 107, 74, 0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes scrollBounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(10px);
+  }
+  60% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes urgencyPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ctaAttention {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.25);
+  }
+  10%, 30% {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+  }
+  20% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+@keyframes countPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease forwards;
 }
@@ -280,9 +436,15 @@
   animation: countUp 0.4s ease forwards;
 }
 
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease forwards;
+}
+
 /* Stagger animation delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+.stagger-7 { animation-delay: 0.7s; }

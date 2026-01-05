@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { Phone, MessageCircle, Mail, Check, ChevronRight, Clock, MapPin, Shield, Sparkles, TreeDeciduous, Scissors, Leaf, Home as HomeIcon, Building, Mountain, AlertTriangle, Star, ArrowRight, Send, Menu, X } from "lucide-react";
+import { Phone, MessageCircle, Mail, Check, ChevronRight, Clock, MapPin, Shield, Sparkles, TreeDeciduous, Scissors, Leaf, Home as HomeIcon, Building, Mountain, AlertTriangle, Star, ArrowRight, Send, Menu, X, ChevronDown, Users, Award, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -105,8 +105,17 @@ export default function Home() {
         )}
       </header>
 
+      {/* Campaign Banner - 緊急性・限定感 */}
+      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-coral to-coral-dark text-white py-2 campaign-banner">
+        <div className="container flex items-center justify-center gap-2 text-sm font-medium">
+          <Zap className="w-4 h-4 animate-pulse" />
+          <span>【今月限定】初回お見積りで<span className="font-bold">10%OFF</span>クーポン配布中</span>
+          <span className="hidden sm:inline text-white/80">| 残りわずか</span>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section ref={heroRef} className="relative pt-16 overflow-hidden">
+      <section ref={heroRef} className="relative pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Desktop image - landscape */}
           <img 
@@ -120,66 +129,118 @@ export default function Home() {
             alt="トトノのスタッフ - 若い男性職人と女性サポートスタッフ" 
             className="md:hidden w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/65 to-transparent" />
         </div>
         
-        <div className="relative z-10 container py-16 md:py-24 lg:py-32">
+        <div className="relative z-10 container py-12 md:py-20 lg:py-28">
           <div className="max-w-2xl">
+            {/* Urgency Badge */}
+            <div className="inline-flex items-center gap-2 bg-coral/90 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 urgency-badge animate-fade-in-up">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              </span>
+              今なら即日対応可能
+            </div>
+            
             {/* Badges */}
-            <div className="flex flex-wrap gap-2 mb-6 animate-fade-in-up">
+            <div className="flex flex-wrap gap-2 mb-4 animate-fade-in-up stagger-1">
               <span className="badge bg-white/20 text-white backdrop-blur-sm">
                 <MapPin className="w-4 h-4" />
                 茨城・栃木・千葉対応
               </span>
-              <span className="badge bg-coral text-white">
+              <span className="badge bg-forest text-white">
                 <Clock className="w-4 h-4" />
                 12時間以内返信
               </span>
             </div>
             
             {/* Main headline */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-4 animate-fade-in-up stagger-1">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-4 animate-fade-in-up stagger-2">
               お庭の困りごと、<br />
               <span className="text-coral">1本から</span>スッキリ解決
             </h1>
             
-            <p className="text-lg md:text-xl text-white/90 mb-6 animate-fade-in-up stagger-2">
+            <p className="text-lg md:text-xl text-white/90 mb-4 animate-fade-in-up stagger-3">
               庭木の剪定・伐採・草刈りなら地元密着の「トトノ」へ。<br className="hidden md:block" />
               写真を送るだけで概算見積もりOK。追加料金の心配なし。
             </p>
             
+            {/* 実績数・信頼性の強化 */}
+            <div className="flex flex-wrap gap-4 md:gap-6 mb-6 animate-fade-in-up stagger-4">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <Users className="w-5 h-5 text-coral" />
+                </div>
+                <div>
+                  <div className="text-2xl font-black text-white stats-number">500<span className="text-lg">+</span></div>
+                  <div className="text-xs text-white/70">累計対応件数</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <Star className="w-5 h-5 text-coral" />
+                </div>
+                <div>
+                  <div className="text-2xl font-black text-white stats-number">4.8</div>
+                  <div className="text-xs text-white/70">お客様満足度</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <Award className="w-5 h-5 text-coral" />
+                </div>
+                <div>
+                  <div className="text-2xl font-black text-white stats-number">98<span className="text-lg">%</span></div>
+                  <div className="text-xs text-white/70">リピート率</div>
+                </div>
+              </div>
+            </div>
+            
             {/* Trust badges */}
-            <div className="flex flex-wrap gap-4 mb-8 animate-fade-in-up stagger-3">
-              <div className="flex items-center gap-2 text-white/90">
-                <Check className="w-5 h-5 text-coral" />
-                <span className="text-sm">見積無料</span>
+            <div className="flex flex-wrap gap-3 mb-6 animate-fade-in-up stagger-5">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Check className="w-4 h-4 text-coral" />
+                <span className="text-sm text-white">見積無料</span>
               </div>
-              <div className="flex items-center gap-2 text-white/90">
-                <Check className="w-5 h-5 text-coral" />
-                <span className="text-sm">写真見積OK</span>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Check className="w-4 h-4 text-coral" />
+                <span className="text-sm text-white">写真見積OK</span>
               </div>
-              <div className="flex items-center gap-2 text-white/90">
-                <Check className="w-5 h-5 text-coral" />
-                <span className="text-sm">1本からOK</span>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Check className="w-4 h-4 text-coral" />
+                <span className="text-sm text-white">1本からOK</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Check className="w-4 h-4 text-coral" />
+                <span className="text-sm text-white">追加料金なし</span>
               </div>
             </div>
             
             {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up stagger-4">
-              <a href={`tel:${PHONE}`} className="cta-button bg-coral text-white flex items-center justify-center gap-2">
+            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up stagger-6">
+              <a href={`tel:${PHONE}`} className="cta-button cta-attention bg-coral text-white flex items-center justify-center gap-2 relative">
                 <Phone className="w-5 h-5" />
-                今すぐ電話で相談
+                <span>今すぐ電話で相談</span>
+                <span className="absolute -top-2 -right-2 bg-white text-coral text-xs font-bold px-2 py-0.5 rounded-full shadow-md">無料</span>
               </a>
-              <a href={LINE_URL} className="cta-button bg-[#06C755] text-white flex items-center justify-center gap-2">
+              <a href={LINE_URL} className="cta-button bg-[#06C755] text-white flex items-center justify-center gap-2 relative quick-contact">
                 <MessageCircle className="w-5 h-5" />
-                LINEで写真を送る
+                <span>LINEで写真を送る</span>
+                <span className="absolute -top-2 -right-2 bg-white text-[#06C755] text-xs font-bold px-2 py-0.5 rounded-full shadow-md">30秒</span>
               </a>
             </div>
             
-            <p className="text-sm text-white/70 mt-4 animate-fade-in-up stagger-5">
+            <p className="text-sm text-white/70 mt-4 animate-fade-in-up stagger-7">
               電話受付: 7:00〜20:00（不在時は折り返します）
             </p>
           </div>
+        </div>
+        
+        {/* Scroll indicator */}
+        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 scroll-indicator">
+          <span className="text-white/60 text-xs">詳しく見る</span>
+          <ChevronDown className="w-6 h-6 text-white/60" />
         </div>
         
         {/* Wave divider */}
