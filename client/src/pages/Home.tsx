@@ -23,6 +23,11 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
+  // SEO: ページタイトルの設定（30-60文字）
+  useEffect(() => {
+    document.title = "【茨城・栃木・千葉】庭木の剪定・伐採・草刈りならトトノ｜1本からOK・見積無料";
+  }, []);
+
   // Scroll reveal effect
   useEffect(() => {
     const observer = new IntersectionObserver(
