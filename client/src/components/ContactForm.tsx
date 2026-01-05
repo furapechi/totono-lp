@@ -4,6 +4,7 @@
  */
 
 import { useState, useRef, FormEvent } from "react";
+import { useLocation } from "wouter";
 import { Phone, Camera, X, Upload, AlertCircle, Send, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -109,6 +110,8 @@ export function ContactForm() {
     fileInputRef.current?.click();
   };
 
+  const [, setLocation] = useLocation();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
@@ -131,15 +134,13 @@ export function ContactForm() {
       });
 
       if (response.ok) {
-        setFormStatus("success");
-        toast.success("お問い合わせを送信しました。12時間以内にご連絡いたします。");
-        
         // Reset form
         formRef.current?.reset();
         setFiles([]);
         
-        // Reset status after 5 seconds
-        setTimeout(() => setFormStatus("idle"), 5000);
+        // サンクスページへリダイレクト（コンバージョン計測用）
+        setLocation("/thanks");
+        return;
       } else {
         throw new Error("送信に失敗しました");
       }
@@ -149,29 +150,6 @@ export function ContactForm() {
       setTimeout(() => setFormStatus("idle"), 3000);
     }
   };
-
-  if (formStatus === "success") {
-    return (
-      <div className="text-center py-12">
-        <div className="w-16 h-16 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircle className="w-8 h-8 text-forest" />
-        </div>
-        <h3 className="text-xl font-bold text-foreground mb-2">
-          送信完了しました
-        </h3>
-        <p className="text-muted-foreground mb-6">
-          お問い合わせありがとうございます。<br />
-          12時間以内にご連絡いたします。
-        </p>
-        <Button
-          onClick={() => setFormStatus("idle")}
-          variant="outline"
-        >
-          新しいお問い合わせ
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <form 
