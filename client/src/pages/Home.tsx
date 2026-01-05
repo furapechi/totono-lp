@@ -11,7 +11,7 @@ import { Phone, MessageCircle, Mail, Check, ChevronRight, Clock, MapPin, Shield,
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { PhotoUploader } from "@/components/PhotoUploader";
+import { ContactForm } from "@/components/ContactForm";
 
 // Contact info
 const PHONE = "090-5306-0197";
@@ -836,116 +836,7 @@ export default function Home() {
           <div className="max-w-2xl mx-auto reveal">
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6 md:p-8">
-                <form className="space-y-6" action={`mailto:${EMAIL}`} method="POST" encType="text/plain">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        お名前
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-forest"
-                        placeholder="山田 太郎"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        ご住所（市区町村まで）<span className="text-coral">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="address"
-                        required
-                        className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-forest"
-                        placeholder="茨城県桜川市"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      ご依頼内容<span className="text-coral">*</span>
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {["剪定", "伐採", "草刈り", "防草シート", "人工芝", "空き家管理", "その他"].map((item) => (
-                        <label key={item} className="flex items-center gap-2 p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80 transition-colors">
-                          <input type="checkbox" name="service" value={item} className="rounded border-input text-forest focus:ring-forest" />
-                          <span className="text-sm">{item}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      本数・面積・状況など
-                    </label>
-                    <textarea
-                      name="details"
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-forest resize-none"
-                      placeholder="例）松の木3本、高さ約3m。隣家との境界近くにあり、枝が越境しそうです。"
-                    />
-                  </div>
-                  
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        ご希望時期
-                      </label>
-                      <select
-                        name="timing"
-                        className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-forest"
-                      >
-                        <option value="">選択してください</option>
-                        <option value="asap">なるべく早く</option>
-                        <option value="this-week">今週中</option>
-                        <option value="this-month">今月中</option>
-                        <option value="consult">相談して決めたい</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        ご希望の連絡方法
-                      </label>
-                      <select
-                        name="contact-method"
-                        className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-forest"
-                      >
-                        <option value="">選択してください</option>
-                        <option value="phone">電話</option>
-                        <option value="email">メール</option>
-                        <option value="line">LINE</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      写真添付（最大10枚まで、各1枚20MB以下）
-                    </label>
-                    <div className="bg-secondary/50 rounded-xl p-4">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        <strong>写真があるとより正確な概算が可能です</strong><br />
-                        庭木や草の状態がわかる写真をお送りください。
-                      </p>
-                      <PhotoUploader />
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-2">
-                    <input type="checkbox" id="privacy" required className="mt-1 rounded border-input text-forest focus:ring-forest" />
-                    <label htmlFor="privacy" className="text-sm text-muted-foreground">
-                      <a href="#" className="text-forest underline">プライバシーポリシー</a>に同意の上、送信します
-                    </label>
-                  </div>
-                  
-                  <Button type="submit" className="w-full cta-button bg-coral hover:bg-coral-dark text-white">
-                    <Send className="w-5 h-5 mr-2" />
-                    送信する
-                  </Button>
-                </form>
+                <ContactForm />
               </CardContent>
             </Card>
           </div>
