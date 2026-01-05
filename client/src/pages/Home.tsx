@@ -4,6 +4,7 @@
  * - 職人の道具箱のような実直さと現代的な洗練の融合
  * - カラー: オフホワイト + チャコール + ディープグリーン + コーラルオレンジCTA
  * - アニメーション: 軽量なtransform/opacityベース
+ * - モバイルファースト設計
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -61,14 +62,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Header - モバイル最適化 */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
-        <div className="container flex items-center justify-between h-16">
+        <div className="container flex items-center justify-between h-14 md:h-16">
           <a href="#" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-forest rounded-lg flex items-center justify-center">
-              <TreeDeciduous className="w-6 h-6 text-white" />
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-forest rounded-lg flex items-center justify-center">
+              <TreeDeciduous className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <span className="font-bold text-xl text-charcoal">トトノ</span>
+            <span className="font-bold text-lg md:text-xl text-charcoal">トトノ</span>
           </a>
           
           {/* Desktop nav */}
@@ -83,162 +84,138 @@ export default function Home() {
             </a>
           </nav>
           
-          {/* Mobile menu button */}
-          <button 
-            className="md:hidden p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile: 電話ボタン + メニュー */}
+          <div className="flex items-center gap-2 md:hidden">
+            <a href={`tel:${PHONE}`} className="bg-coral text-white p-2 rounded-lg">
+              <Phone className="w-5 h-5" />
+            </a>
+            <button 
+              className="p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
         
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-border py-4">
             <nav className="container flex flex-col gap-4">
-              <a href="#services" className="text-sm font-medium py-2" onClick={() => setMobileMenuOpen(false)}>サービス</a>
-              <a href="#pricing" className="text-sm font-medium py-2" onClick={() => setMobileMenuOpen(false)}>料金</a>
-              <a href="#cases" className="text-sm font-medium py-2" onClick={() => setMobileMenuOpen(false)}>施工事例</a>
-              <a href="#faq" className="text-sm font-medium py-2" onClick={() => setMobileMenuOpen(false)}>よくある質問</a>
+              <a href="#services" className="text-base font-medium py-2" onClick={() => setMobileMenuOpen(false)}>サービス</a>
+              <a href="#pricing" className="text-base font-medium py-2" onClick={() => setMobileMenuOpen(false)}>料金</a>
+              <a href="#cases" className="text-base font-medium py-2" onClick={() => setMobileMenuOpen(false)}>施工事例</a>
+              <a href="#faq" className="text-base font-medium py-2" onClick={() => setMobileMenuOpen(false)}>よくある質問</a>
+              <a href="#contact" className="text-base font-medium py-2" onClick={() => setMobileMenuOpen(false)}>お問い合わせ</a>
             </nav>
           </div>
         )}
       </header>
 
-      {/* Campaign Banner - 緊急性・限定感 */}
-      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-coral to-coral-dark text-white py-2 campaign-banner">
-        <div className="container flex items-center justify-center gap-2 text-sm font-medium">
-          <Zap className="w-4 h-4 animate-pulse" />
-          <span>【今月限定】初回お見積りで<span className="font-bold">10%OFF</span>クーポン配布中</span>
+      {/* Campaign Banner - モバイル最適化 */}
+      <div className="fixed top-14 md:top-16 left-0 right-0 z-40 bg-gradient-to-r from-coral to-coral-dark text-white py-1.5 md:py-2 campaign-banner">
+        <div className="container flex items-center justify-center gap-2 text-xs md:text-sm font-medium">
+          <Zap className="w-3 h-3 md:w-4 md:h-4 animate-pulse" />
+          <span>【今月限定】初回<span className="font-bold">10%OFF</span></span>
           <span className="hidden sm:inline text-white/80">| 残りわずか</span>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative pt-24 overflow-hidden">
+      {/* Hero Section - モバイル完全最適化 */}
+      <section ref={heroRef} className="relative pt-20 md:pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Desktop image - landscape */}
+          {/* Desktop image */}
           <img 
             src="/images/hero-team-desktop.jpg" 
-            alt="トトノのスタッフ - 若い男性職人と女性サポートスタッフ" 
+            alt="トトノのスタッフ" 
             className="hidden md:block w-full h-full object-cover object-center"
           />
-          {/* Mobile image - portrait optimized */}
+          {/* Mobile image */}
           <img 
             src="/images/hero-team-mobile.jpg" 
-            alt="トトノのスタッフ - 若い男性職人と女性サポートスタッフ" 
+            alt="トトノのスタッフ" 
             className="md:hidden w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/65 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40 md:to-transparent" />
         </div>
         
-        <div className="relative z-10 container py-12 md:py-20 lg:py-28">
+        <div className="relative z-10 container py-8 md:py-20 lg:py-28">
           <div className="max-w-2xl">
-            {/* Urgency Badge */}
-            <div className="inline-flex items-center gap-2 bg-coral/90 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 urgency-badge animate-fade-in-up">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            {/* モバイル: シンプルなバッジ */}
+            <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
+              <span className="inline-flex items-center gap-1.5 bg-coral text-white px-3 py-1 rounded-full text-xs md:text-sm font-bold">
+                <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-full w-full bg-white"></span>
+                </span>
+                即日対応可能
               </span>
-              今なら即日対応可能
-            </div>
-            
-            {/* Badges */}
-            <div className="flex flex-wrap gap-2 mb-4 animate-fade-in-up stagger-1">
-              <span className="badge bg-white/20 text-white backdrop-blur-sm">
-                <MapPin className="w-4 h-4" />
-                茨城・栃木・千葉対応
-              </span>
-              <span className="badge bg-forest text-white">
-                <Clock className="w-4 h-4" />
-                12時間以内返信
+              <span className="inline-flex items-center gap-1 bg-white/20 text-white backdrop-blur-sm px-3 py-1 rounded-full text-xs md:text-sm">
+                <MapPin className="w-3 h-3 md:w-4 md:h-4" />
+                茨城・栃木・千葉
               </span>
             </div>
             
-            {/* Main headline */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-4 animate-fade-in-up stagger-2">
+            {/* Main headline - モバイル最適化 */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-3 md:mb-4">
               お庭の困りごと、<br />
               <span className="text-coral">1本から</span>スッキリ解決
             </h1>
             
-            <p className="text-lg md:text-xl text-white/90 mb-4 animate-fade-in-up stagger-3">
-              庭木の剪定・伐採・草刈りなら地元密着の「トトノ」へ。<br className="hidden md:block" />
-              写真を送るだけで概算見積もりOK。追加料金の心配なし。
+            <p className="text-sm sm:text-base md:text-xl text-white/90 mb-4 md:mb-6 leading-relaxed">
+              庭木の剪定・伐採・草刈りなら地元密着の「トトノ」へ。
+              <span className="hidden sm:inline"><br /></span>
+              写真を送るだけで概算見積もりOK。
             </p>
             
-            {/* 実績数・信頼性の強化 */}
-            <div className="flex flex-wrap gap-4 md:gap-6 mb-6 animate-fade-in-up stagger-4">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                  <Users className="w-5 h-5 text-coral" />
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-white stats-number">500<span className="text-lg">+</span></div>
-                  <div className="text-xs text-white/70">累計対応件数</div>
-                </div>
+            {/* 実績数 - モバイルは2列 */}
+            <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
+                <div className="text-xl md:text-2xl font-black text-white">500<span className="text-sm md:text-lg">+</span></div>
+                <div className="text-[10px] md:text-xs text-white/70">累計対応件数</div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                  <Star className="w-5 h-5 text-coral" />
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-white stats-number">4.8</div>
-                  <div className="text-xs text-white/70">お客様満足度</div>
-                </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
+                <div className="text-xl md:text-2xl font-black text-white">4.8</div>
+                <div className="text-[10px] md:text-xs text-white/70">お客様満足度</div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                  <Award className="w-5 h-5 text-coral" />
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-white stats-number">98<span className="text-lg">%</span></div>
-                  <div className="text-xs text-white/70">リピート率</div>
-                </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
+                <div className="text-xl md:text-2xl font-black text-white">98<span className="text-sm md:text-lg">%</span></div>
+                <div className="text-[10px] md:text-xs text-white/70">リピート率</div>
               </div>
             </div>
             
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-3 mb-6 animate-fade-in-up stagger-5">
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                <Check className="w-4 h-4 text-coral" />
-                <span className="text-sm text-white">見積無料</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                <Check className="w-4 h-4 text-coral" />
-                <span className="text-sm text-white">写真見積OK</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                <Check className="w-4 h-4 text-coral" />
-                <span className="text-sm text-white">1本からOK</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                <Check className="w-4 h-4 text-coral" />
-                <span className="text-sm text-white">追加料金なし</span>
-              </div>
+            {/* Trust badges - モバイルはコンパクト */}
+            <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
+              {["見積無料", "写真見積OK", "1本からOK", "追加料金なし"].map((text, i) => (
+                <div key={i} className="flex items-center gap-1 bg-white/10 backdrop-blur-sm px-2 md:px-3 py-1 rounded-full">
+                  <Check className="w-3 h-3 md:w-4 md:h-4 text-coral" />
+                  <span className="text-xs md:text-sm text-white">{text}</span>
+                </div>
+              ))}
             </div>
             
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up stagger-6">
-              <a href={`tel:${PHONE}`} className="cta-button cta-attention bg-coral text-white flex items-center justify-center gap-2 relative">
-                <Phone className="w-5 h-5" />
+            {/* CTA buttons - モバイル最適化（大きく、タップしやすく） */}
+            <div className="flex flex-col gap-3">
+              <a href={`tel:${PHONE}`} className="cta-button-mobile bg-coral text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg relative">
+                <Phone className="w-6 h-6" />
                 <span>今すぐ電話で相談</span>
                 <span className="absolute -top-2 -right-2 bg-white text-coral text-xs font-bold px-2 py-0.5 rounded-full shadow-md">無料</span>
               </a>
-              <a href={LINE_URL} className="cta-button bg-[#06C755] text-white flex items-center justify-center gap-2 relative quick-contact">
-                <MessageCircle className="w-5 h-5" />
+              <a href={LINE_URL} className="cta-button-mobile bg-[#06C755] text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg relative">
+                <MessageCircle className="w-6 h-6" />
                 <span>LINEで写真を送る</span>
                 <span className="absolute -top-2 -right-2 bg-white text-[#06C755] text-xs font-bold px-2 py-0.5 rounded-full shadow-md">30秒</span>
               </a>
             </div>
             
-            <p className="text-sm text-white/70 mt-4 animate-fade-in-up stagger-7">
-              電話受付: 7:00〜20:00（不在時は折り返します）
+            <p className="text-xs md:text-sm text-white/70 mt-3 md:mt-4 text-center md:text-left">
+              📞 7:00〜20:00（不在時は折り返します）
             </p>
           </div>
         </div>
         
-        {/* Scroll indicator */}
-        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 scroll-indicator">
+        {/* Scroll indicator - デスクトップのみ */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 scroll-indicator">
           <span className="text-white/60 text-xs">詳しく見る</span>
           <ChevronDown className="w-6 h-6 text-white/60" />
         </div>
@@ -252,50 +229,50 @@ export default function Home() {
       </section>
 
       {/* Service Area Section */}
-      <section className="py-12 md:py-16 bg-background">
+      <section className="py-10 md:py-16 bg-background">
         <div className="container">
           <div className="reveal">
-            <div className="text-center mb-8">
-              <span className="badge bg-forest/10 text-forest mb-4">
-                <MapPin className="w-4 h-4" />
+            <div className="text-center mb-6 md:mb-8">
+              <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
+                <MapPin className="w-3 h-3 md:w-4 md:h-4" />
                 対応エリア
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              <h2 className="text-xl md:text-3xl font-bold text-foreground">
                 茨城・栃木・千葉の広域に対応
               </h2>
             </div>
             
-            <div className="bg-secondary/50 rounded-2xl p-6 md:p-8">
-              <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-secondary/50 rounded-xl md:rounded-2xl p-4 md:p-8">
+              <div className="grid gap-4 md:grid-cols-3 md:gap-6">
                 <div>
-                  <h3 className="font-bold text-forest mb-3 flex items-center gap-2">
+                  <h3 className="font-bold text-forest mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base">
                     <span className="w-2 h-2 bg-forest rounded-full"></span>
                     茨城県（メイン）
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                     桜川市・筑西市・結城市・下妻市・常総市・つくば市・土浦市・石岡市・笠間市・水戸市・古河市・坂東市・境町・八千代町・五霞町
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-bold text-forest mb-3 flex items-center gap-2">
+                  <h3 className="font-bold text-forest mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base">
                     <span className="w-2 h-2 bg-forest rounded-full"></span>
                     栃木県
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                     栃木市・小山市・佐野市・足利市・真岡市・下野市・壬生町・野木町
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-bold text-forest mb-3 flex items-center gap-2">
+                  <h3 className="font-bold text-forest mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base">
                     <span className="w-2 h-2 bg-forest rounded-full"></span>
                     千葉県
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                     我孫子市・柏市・野田市・流山市・松戸市・印西市・白井市
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mt-6 text-center">
+              <p className="text-xs md:text-sm text-muted-foreground mt-4 md:mt-6 text-center">
                 ※上記以外のエリアもお気軽にご相談ください
               </p>
             </div>
@@ -304,40 +281,39 @@ export default function Home() {
       </section>
 
       {/* Problems Section */}
-      <section className="py-12 md:py-20 bg-muted">
+      <section className="py-10 md:py-20 bg-muted">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-2 md:mb-4">
               こんなお悩みありませんか？
             </h2>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 md:gap-4 reveal">
             {[
               "庭木が伸びすぎて、ご近所に迷惑をかけていないか心配",
               "空き家の庭が荒れ放題で、どこに頼めばいいかわからない",
               "業者に頼むと高そう…追加料金が怖い",
               "自分で草刈りするのは体力的にキツくなってきた",
-              "山林の木が倒れそうで危険だけど、対応してくれる業者が見つからない",
+              "山林の木が倒れそうで危険",
               "見積もりを取りたいけど、立ち会う時間がない",
-              "以前頼んだ業者の仕上がりがイマイチだった",
             ].map((problem, i) => (
-              <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm">
-                <div className="w-6 h-6 bg-coral/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <AlertTriangle className="w-4 h-4 text-coral" />
+              <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-3 md:p-4 shadow-sm">
+                <div className="w-5 h-5 md:w-6 md:h-6 bg-coral/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <AlertTriangle className="w-3 h-3 md:w-4 md:h-4 text-coral" />
                 </div>
-                <p className="text-sm text-foreground">{problem}</p>
+                <p className="text-xs md:text-sm text-foreground">{problem}</p>
               </div>
             ))}
           </div>
           
-          <div className="reveal mt-10 text-center">
-            <div className="inline-block bg-forest text-white rounded-2xl px-8 py-6">
-              <p className="text-lg md:text-xl font-bold mb-2">
+          <div className="reveal mt-6 md:mt-10 text-center">
+            <div className="inline-block bg-forest text-white rounded-xl md:rounded-2xl px-6 py-4 md:px-8 md:py-6">
+              <p className="text-base md:text-xl font-bold mb-1 md:mb-2">
                 そのお悩み、トトノが解決します
               </p>
-              <p className="text-sm text-white/80">
-                地元密着だからできる、丁寧で誠実な対応をお約束
+              <p className="text-xs md:text-sm text-white/80">
+                地元密着だからできる、丁寧で誠実な対応
               </p>
             </div>
           </div>
@@ -345,53 +321,53 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="services" className="py-12 md:py-20 bg-background">
+      <section id="services" className="py-10 md:py-20 bg-background">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <span className="badge bg-forest/10 text-forest mb-4">
-              <Sparkles className="w-4 h-4" />
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
+              <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
               選ばれる理由
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground">
               トトノが選ばれる5つの理由
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6 reveal">
             {[
               {
-                icon: <Clock className="w-8 h-8" />,
+                icon: <Clock className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "12時間以内に返信",
-                description: "LINE・メールは24時間受付。お問い合わせから12時間以内にスタッフが返信します。急ぎの場合は電話でどうぞ。",
+                description: "LINE・メールは24時間受付。お問い合わせから12時間以内にスタッフが返信します。",
               },
               {
-                icon: <Shield className="w-8 h-8" />,
+                icon: <Shield className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "追加料金なしの明朗会計",
                 description: "お見積もり金額から追加請求は一切なし。作業前に料金の内訳をしっかりご説明します。",
               },
               {
-                icon: <TreeDeciduous className="w-8 h-8" />,
+                icon: <TreeDeciduous className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "1本からでもOK",
                 description: "「この木1本だけ切ってほしい」も大歓迎。小さな作業でも丁寧に対応します。",
               },
               {
-                icon: <MessageCircle className="w-8 h-8" />,
+                icon: <MessageCircle className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "写真で概算見積もり",
                 description: "LINEで写真を送るだけで概算をお伝えできます。忙しくて立ち会えない方も安心。",
               },
               {
-                icon: <MapPin className="w-8 h-8" />,
+                icon: <MapPin className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "地元密着の安心感",
                 description: "茨城県桜川市を拠点に、地域の気候や植生を熟知。ご近所への配慮も万全です。",
               },
             ].map((item, i) => (
               <Card key={i} className="card-hover border-0 shadow-md">
-                <CardContent className="p-6">
-                  <div className="w-14 h-14 bg-forest/10 rounded-xl flex items-center justify-center text-forest mb-4">
+                <CardContent className="p-4 md:p-6">
+                  <div className="w-10 h-10 md:w-14 md:h-14 bg-forest/10 rounded-xl flex items-center justify-center text-forest mb-3 md:mb-4">
                     {item.icon}
                   </div>
-                  <h3 className="font-bold text-lg text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                  <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">{item.title}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -400,38 +376,38 @@ export default function Home() {
       </section>
 
       {/* Steps Section */}
-      <section className="py-12 md:py-20 bg-forest text-white">
+      <section className="py-10 md:py-20 bg-forest text-white">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-3xl font-bold">
               ご依頼から完了まで3ステップ
             </h2>
-            <p className="text-white/80 mt-2">かんたん・スピーディーにお庭をキレイに</p>
+            <p className="text-white/80 mt-1 md:mt-2 text-sm md:text-base">かんたん・スピーディーにお庭をキレイに</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6 reveal">
+          <div className="grid gap-4 md:grid-cols-3 md:gap-6 reveal">
             {[
               {
                 step: "01",
                 title: "お問い合わせ",
-                description: "電話・LINE・メールでお気軽にご連絡ください。LINEなら写真を送るだけで概算をお伝えできます。",
+                description: "電話・LINE・メールでお気軽にご連絡ください。",
               },
               {
                 step: "02",
                 title: "現地確認・お見積もり",
-                description: "必要に応じて現地を確認し、正式なお見積もりをご提示。ご納得いただいてから作業開始です。",
+                description: "現地を確認し、正式なお見積もりをご提示。",
               },
               {
                 step: "03",
                 title: "作業・お支払い",
-                description: "プロの技術で丁寧に作業。完了後にご確認いただき、現金またはお振込みでお支払い。",
+                description: "プロの技術で丁寧に作業。完了後にお支払い。",
               },
             ].map((item, i) => (
               <div key={i} className="relative">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                  <div className="text-4xl font-black text-coral mb-4">{item.step}</div>
-                  <h3 className="font-bold text-xl mb-2">{item.title}</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">{item.description}</p>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6">
+                  <div className="text-2xl md:text-4xl font-black text-coral mb-2 md:mb-4">{item.step}</div>
+                  <h3 className="font-bold text-lg md:text-xl mb-1 md:mb-2">{item.title}</h3>
+                  <p className="text-white/80 text-xs md:text-sm leading-relaxed">{item.description}</p>
                 </div>
                 {i < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2">
@@ -445,98 +421,98 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 md:py-20 bg-background">
+      <section id="pricing" className="py-10 md:py-20 bg-background">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <span className="badge bg-forest/10 text-forest mb-4">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
               料金目安
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2">
               サービス・料金のご案内
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-xs md:text-sm text-muted-foreground">
               ※料金は目安です。現地の状況により変動します
             </p>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6 reveal">
             {[
               {
-                icon: <Scissors className="w-8 h-8" />,
+                icon: <Scissors className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "庭木の剪定",
                 price: "3,000円〜",
                 unit: "/ 1本",
-                description: "松・槙・庭木全般の本格剪定。樹形を整え、美しいお庭に。",
-                features: ["低木〜高木まで対応", "枝葉の処分込み", "年間管理もOK"],
+                description: "松・槙・庭木全般の本格剪定。",
+                features: ["低木〜高木まで対応", "枝葉の処分込み"],
                 image: "/images/hero-garden.jpg",
               },
               {
-                icon: <TreeDeciduous className="w-8 h-8" />,
+                icon: <TreeDeciduous className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "伐採・抜根",
                 price: "5,000円〜",
                 unit: "/ 1本",
-                description: "邪魔な木、危険な木を安全に伐採。山林の間伐も対応。",
-                features: ["重機使用可能", "処分費込み", "山林・竹林OK"],
+                description: "邪魔な木、危険な木を安全に伐採。",
+                features: ["重機使用可能", "山林・竹林OK"],
                 image: "/images/tree-cutting.jpg",
               },
               {
-                icon: <Leaf className="w-8 h-8" />,
+                icon: <Leaf className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "草刈り・草抜き",
                 price: "500円〜",
                 unit: "/ 1㎡",
-                description: "伸び放題の雑草をスッキリ。定期的な管理もお任せください。",
-                features: ["機械刈り・手作業", "除草剤散布可", "定期契約割引あり"],
+                description: "伸び放題の雑草をスッキリ。",
+                features: ["機械刈り・手作業", "定期契約割引あり"],
                 image: "/images/grass-cutting.jpg",
               },
               {
-                icon: <Shield className="w-8 h-8" />,
+                icon: <Shield className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "防草シート施工",
                 price: "1,500円〜",
                 unit: "/ 1㎡",
-                description: "草刈りの手間を大幅削減。長期間雑草を抑制します。",
-                features: ["高耐久シート使用", "砂利敷き対応", "10年保証品あり"],
+                description: "草刈りの手間を大幅削減。",
+                features: ["高耐久シート使用", "10年保証品あり"],
               },
               {
-                icon: <Sparkles className="w-8 h-8" />,
+                icon: <Sparkles className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "人工芝施工",
                 price: "8,000円〜",
                 unit: "/ 1㎡",
-                description: "お手入れ不要で年中キレイな緑。お子様やペットにも安心。",
-                features: ["高品質人工芝", "下地処理込み", "10年耐久品"],
+                description: "お手入れ不要で年中キレイな緑。",
+                features: ["高品質人工芝", "下地処理込み"],
               },
               {
-                icon: <HomeIcon className="w-8 h-8" />,
+                icon: <HomeIcon className="w-6 h-6 md:w-8 md:h-8" />,
                 title: "空き家の定期管理",
                 price: "5,000円〜",
                 unit: "/ 月",
-                description: "遠方にお住まいの方も安心。定期的な見回りと庭の管理。",
-                features: ["月1回〜対応", "写真報告あり", "郵便物確認可"],
+                description: "遠方にお住まいの方も安心。",
+                features: ["月1回〜対応", "写真報告あり"],
               },
             ].map((item, i) => (
               <Card key={i} className="card-hover border-0 shadow-md overflow-hidden">
                 {item.image && (
-                  <div className="h-40 overflow-hidden">
+                  <div className="h-32 md:h-40 overflow-hidden">
                     <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                   </div>
                 )}
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 bg-forest/10 rounded-xl flex items-center justify-center text-forest">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-forest/10 rounded-xl flex items-center justify-center text-forest">
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg text-foreground">{item.title}</h3>
+                      <h3 className="font-bold text-base md:text-lg text-foreground">{item.title}</h3>
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <span className="text-2xl font-black text-coral">{item.price}</span>
-                    <span className="text-sm text-muted-foreground">{item.unit}</span>
+                  <div className="mb-2 md:mb-3">
+                    <span className="text-xl md:text-2xl font-black text-coral">{item.price}</span>
+                    <span className="text-xs md:text-sm text-muted-foreground">{item.unit}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
-                  <ul className="space-y-2">
+                  <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">{item.description}</p>
+                  <ul className="space-y-1 md:space-y-2">
                     {item.features.map((feature, j) => (
-                      <li key={j} className="flex items-center gap-2 text-sm">
-                        <Check className="w-4 h-4 text-forest" />
+                      <li key={j} className="flex items-center gap-2 text-xs md:text-sm">
+                        <Check className="w-3 h-3 md:w-4 md:h-4 text-forest" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -545,133 +521,63 @@ export default function Home() {
               </Card>
             ))}
           </div>
-          
-          {/* Pricing transparency */}
-          <div className="reveal mt-10 bg-secondary/50 rounded-2xl p-6 md:p-8">
-            <h3 className="font-bold text-lg text-foreground mb-4 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-forest" />
-              料金が決まる要素
-            </h3>
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: "木の高さ・太さ", desc: "高木・大径木は割増" },
-                { label: "作業の難易度", desc: "狭所・傾斜地など" },
-                { label: "処分量", desc: "枝葉・幹の量" },
-                { label: "重機の必要性", desc: "クレーン・ユンボ等" },
-              ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-4">
-                  <p className="font-medium text-foreground">{item.label}</p>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              ※追加料金が発生する場合は、必ず事前にご説明・ご了承をいただきます
-            </p>
-          </div>
         </div>
       </section>
 
       {/* Service Locations */}
-      <section className="py-12 md:py-20 bg-muted">
+      <section className="py-10 md:py-20 bg-muted">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2">
               こんな場所も対応します
             </h2>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 reveal">
             {[
-              { icon: <HomeIcon className="w-6 h-6" />, label: "戸建て住宅" },
-              { icon: <Building className="w-6 h-6" />, label: "空き家・空き地" },
-              { icon: <Building className="w-6 h-6" />, label: "店舗・施設" },
-              { icon: <Mountain className="w-6 h-6" />, label: "山林・竹林" },
+              { icon: <HomeIcon className="w-5 h-5 md:w-6 md:h-6" />, label: "戸建て住宅" },
+              { icon: <Building className="w-5 h-5 md:w-6 md:h-6" />, label: "空き家・空き地" },
+              { icon: <Building className="w-5 h-5 md:w-6 md:h-6" />, label: "店舗・施設" },
+              { icon: <Mountain className="w-5 h-5 md:w-6 md:h-6" />, label: "山林・竹林" },
             ].map((item, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 text-center shadow-sm">
-                <div className="w-12 h-12 bg-forest/10 rounded-full flex items-center justify-center text-forest mx-auto mb-3">
+              <div key={i} className="bg-white rounded-xl p-4 md:p-6 text-center shadow-sm">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-forest/10 rounded-full flex items-center justify-center text-forest mx-auto mb-2 md:mb-3">
                   {item.icon}
                 </div>
-                <p className="font-medium text-foreground">{item.label}</p>
+                <p className="font-medium text-foreground text-sm md:text-base">{item.label}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Section */}
-      <section className="py-12 md:py-20 bg-background">
-        <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              業者選びのポイント
-            </h2>
-            <p className="text-muted-foreground">
-              後悔しない業者選びのために
-            </p>
-          </div>
-          
-          <div className="reveal overflow-x-auto">
-            <table className="w-full min-w-[600px] bg-white rounded-2xl shadow-md overflow-hidden">
-              <thead>
-                <tr className="bg-forest text-white">
-                  <th className="p-4 text-left font-medium">比較項目</th>
-                  <th className="p-4 text-center font-medium">トトノ</th>
-                  <th className="p-4 text-center font-medium">一般的な業者</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { item: "見積もり方法", us: "写真でOK / 現地無料", them: "現地のみ（有料の場合も）" },
-                  { item: "返信スピード", us: "12時間以内", them: "数日〜1週間" },
-                  { item: "最低依頼本数", us: "1本からOK", them: "複数本〜" },
-                  { item: "追加料金", us: "事前説明・了承制", them: "作業後に請求されることも" },
-                  { item: "近隣への配慮", us: "事前挨拶・養生徹底", them: "業者による" },
-                ].map((row, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-muted/30" : ""}>
-                    <td className="p-4 font-medium text-foreground">{row.item}</td>
-                    <td className="p-4 text-center">
-                      <span className="inline-flex items-center gap-1 text-forest font-medium">
-                        <Check className="w-4 h-4" />
-                        {row.us}
-                      </span>
-                    </td>
-                    <td className="p-4 text-center text-muted-foreground">{row.them}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
 
       {/* Risk Section */}
-      <section className="py-12 md:py-20 bg-coral/5">
+      <section className="py-10 md:py-20 bg-coral/5">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2">
               放置するとこんなリスクが…
             </h2>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-4 reveal">
             {[
-              { title: "近隣トラブル", desc: "枝葉が隣家に侵入、落ち葉で迷惑をかける" },
-              { title: "害虫の発生", desc: "毛虫・蜂の巣など、人体への被害も" },
+              { title: "近隣トラブル", desc: "枝葉が隣家に侵入、落ち葉で迷惑" },
+              { title: "害虫の発生", desc: "毛虫・蜂の巣など、人体への被害" },
               { title: "倒木の危険", desc: "台風・強風で倒れ、建物や人に被害" },
               { title: "景観の悪化", desc: "荒れた庭は地域の美観を損ねる" },
               { title: "防犯上の問題", desc: "空き家と見なされ、不法侵入のリスク" },
-              { title: "資産価値の低下", desc: "売却時に大幅なマイナス評価に" },
+              { title: "資産価値の低下", desc: "売却時に大幅なマイナス評価" },
             ].map((item, i) => (
-              <div key={i} className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-coral">
-                <h3 className="font-bold text-foreground mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              <div key={i} className="bg-white rounded-xl p-4 md:p-5 shadow-sm border-l-4 border-coral">
+                <h3 className="font-bold text-foreground mb-1 text-sm md:text-base">{item.title}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">{item.desc}</p>
               </div>
             ))}
           </div>
           
-          <div className="reveal mt-8 text-center">
-            <p className="text-lg font-medium text-foreground">
+          <div className="reveal mt-6 md:mt-8 text-center">
+            <p className="text-base md:text-lg font-medium text-foreground">
               早めの対処で、費用も手間も最小限に
             </p>
           </div>
@@ -679,28 +585,28 @@ export default function Home() {
       </section>
 
       {/* Cases Section */}
-      <section id="cases" className="py-12 md:py-20 bg-background">
+      <section id="cases" className="py-10 md:py-20 bg-background">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <span className="badge bg-forest/10 text-forest mb-4">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
               施工事例
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground">
               ビフォー・アフター
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 reveal">
+          <div className="grid gap-4 md:grid-cols-2 md:gap-6 reveal">
             <Card className="overflow-hidden border-0 shadow-md">
               <div className="aspect-video">
                 <img src="/images/grass-cutting.jpg" alt="草刈りビフォーアフター" className="w-full h-full object-cover" />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-lg text-foreground mb-2">草刈り｜桜川市 S様邸</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  1年以上放置されていた庭の草刈り。膝丈まで伸びた雑草を機械と手作業で除去。防草シートの施工もご提案しました。
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">草刈り｜桜川市 S様邸</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
+                  1年以上放置されていた庭の草刈り。膝丈まで伸びた雑草を機械と手作業で除去。
                 </p>
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-3 md:gap-4 text-xs md:text-sm">
                   <span className="text-muted-foreground">作業時間: 半日</span>
                   <span className="text-muted-foreground">面積: 約50㎡</span>
                 </div>
@@ -711,12 +617,12 @@ export default function Home() {
               <div className="aspect-video">
                 <img src="/images/before-after-garden.jpg" alt="庭木剪定ビフォーアフター" className="w-full h-full object-cover" />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-lg text-foreground mb-2">庭木剪定｜筑西市 T様邸</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  伸び放題だった庭木を本格剪定。樹形を整え、日当たりと風通しを改善。お客様から「見違えるようになった」とお喜びの声。
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">庭木剪定｜筑西市 T様邸</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
+                  伸び放題だった庭木を本格剪定。樹形を整え、日当たりと風通しを改善。
                 </p>
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-3 md:gap-4 text-xs md:text-sm">
                   <span className="text-muted-foreground">作業時間: 1日</span>
                   <span className="text-muted-foreground">本数: 8本</span>
                 </div>
@@ -727,19 +633,19 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 md:py-20 bg-muted">
+      <section className="py-10 md:py-20 bg-muted">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <span className="badge bg-forest/10 text-forest mb-4">
-              <Star className="w-4 h-4" />
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
+              <Star className="w-3 h-3 md:w-4 md:h-4" />
               お客様の声
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground">
               ご利用いただいたお客様から
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6 reveal">
+          <div className="grid gap-4 md:grid-cols-3 md:gap-6 reveal">
             {[
               {
                 name: "K様（桜川市・60代）",
@@ -758,20 +664,20 @@ export default function Home() {
               },
             ].map((item, i) => (
               <Card key={i} className="border-0 shadow-md">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-3">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-1 mb-2 md:mb-3">
                     {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-coral text-coral" />
+                      <Star key={j} className="w-3 h-3 md:w-4 md:h-4 fill-coral text-coral" />
                     ))}
                   </div>
-                  <p className="text-sm text-foreground mb-4 leading-relaxed">「{item.comment}」</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-forest/10 rounded-full flex items-center justify-center">
-                      <span className="text-forest font-bold">{item.name[0]}</span>
+                  <p className="text-xs md:text-sm text-foreground mb-3 md:mb-4 leading-relaxed">「{item.comment}」</p>
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-forest/10 rounded-full flex items-center justify-center">
+                      <span className="text-forest font-bold text-sm md:text-base">{item.name[0]}</span>
                     </div>
                     <div>
-                      <p className="font-medium text-foreground text-sm">{item.name}</p>
-                      <p className="text-xs text-muted-foreground">{item.service}</p>
+                      <p className="font-medium text-foreground text-xs md:text-sm">{item.name}</p>
+                      <p className="text-[10px] md:text-xs text-muted-foreground">{item.service}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -782,46 +688,45 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-20 bg-forest text-white">
+      <section className="py-10 md:py-20 bg-forest text-white">
         <div className="container">
           <div className="reveal text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            <h2 className="text-xl md:text-3xl font-bold mb-3 md:mb-4">
               まずはお気軽にご相談ください
             </h2>
-            <p className="text-white/80 mb-8">
-              お見積もりは無料。LINEで写真を送るだけでも概算をお伝えできます。<br />
-              「こんなこと頼めるかな？」というご質問だけでもお気軽にどうぞ。
+            <p className="text-white/80 mb-6 md:mb-8 text-sm md:text-base">
+              お見積もりは無料。LINEで写真を送るだけでも概算をお伝えできます。
             </p>
             
-            <div className="grid sm:grid-cols-3 gap-4 mb-8">
-              <a href={`tel:${PHONE}`} className="cta-button bg-coral text-white flex flex-col items-center gap-2 py-6">
-                <Phone className="w-8 h-8" />
-                <span className="font-bold">電話で相談</span>
-                <span className="text-sm text-white/80">7:00〜20:00</span>
+            <div className="grid gap-3 sm:grid-cols-3 md:gap-4 mb-6 md:mb-8">
+              <a href={`tel:${PHONE}`} className="cta-button bg-coral text-white flex flex-col items-center gap-1 md:gap-2 py-4 md:py-6">
+                <Phone className="w-6 h-6 md:w-8 md:h-8" />
+                <span className="font-bold text-sm md:text-base">電話で相談</span>
+                <span className="text-xs md:text-sm text-white/80">7:00〜20:00</span>
               </a>
-              <a href={LINE_URL} className="cta-button bg-[#06C755] text-white flex flex-col items-center gap-2 py-6">
-                <MessageCircle className="w-8 h-8" />
-                <span className="font-bold">LINEで相談</span>
-                <span className="text-sm text-white/80">写真を送るだけ</span>
+              <a href={LINE_URL} className="cta-button bg-[#06C755] text-white flex flex-col items-center gap-1 md:gap-2 py-4 md:py-6">
+                <MessageCircle className="w-6 h-6 md:w-8 md:h-8" />
+                <span className="font-bold text-sm md:text-base">LINEで相談</span>
+                <span className="text-xs md:text-sm text-white/80">写真を送るだけ</span>
               </a>
-              <a href={`mailto:${EMAIL}`} className="cta-button bg-white text-forest flex flex-col items-center gap-2 py-6">
-                <Mail className="w-8 h-8" />
-                <span className="font-bold">メールで相談</span>
-                <span className="text-sm text-forest/70">24時間受付</span>
+              <a href={`mailto:${EMAIL}`} className="cta-button bg-white text-forest flex flex-col items-center gap-1 md:gap-2 py-4 md:py-6">
+                <Mail className="w-6 h-6 md:w-8 md:h-8" />
+                <span className="font-bold text-sm md:text-base">メールで相談</span>
+                <span className="text-xs md:text-sm text-forest/70">24時間受付</span>
               </a>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-white/80">
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm text-white/80">
               <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
+                <Check className="w-3 h-3 md:w-4 md:h-4" />
                 見積無料
               </span>
               <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
+                <Check className="w-3 h-3 md:w-4 md:h-4" />
                 12時間以内返信
               </span>
               <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
+                <Check className="w-3 h-3 md:w-4 md:h-4" />
                 1本からOK
               </span>
             </div>
@@ -830,54 +735,54 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-12 md:py-20 bg-background">
+      <section id="faq" className="py-10 md:py-20 bg-background">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <span className="badge bg-forest/10 text-forest mb-4">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-forest/10 text-forest mb-3 md:mb-4 text-xs md:text-sm">
               FAQ
             </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground">
               よくあるご質問
             </h2>
           </div>
           
           <div className="max-w-3xl mx-auto reveal">
-            <Accordion type="single" collapsible className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-3 md:space-y-4">
               {[
                 {
                   q: "見積もりは無料ですか？",
-                  a: "はい、お見積もりは完全無料です。LINEで写真を送っていただければ概算をお伝えすることもできます。正式なお見積もりは現地確認後にご提示します。",
+                  a: "はい、お見積もりは完全無料です。LINEで写真を送っていただければ概算をお伝えすることもできます。",
                 },
                 {
                   q: "1本だけでも依頼できますか？",
-                  a: "もちろんです。「この木1本だけ」「この部分の草だけ」といった小さなご依頼も喜んでお受けします。お気軽にご相談ください。",
+                  a: "もちろんです。「この木1本だけ」といった小さなご依頼も喜んでお受けします。",
                 },
                 {
                   q: "作業後に追加料金を請求されることはありますか？",
-                  a: "お見積もり金額から追加請求することは一切ありません。万が一、作業中に追加作業が必要になった場合は、必ず事前にご説明し、ご了承をいただいてから行います。",
+                  a: "お見積もり金額から追加請求することは一切ありません。追加作業が必要な場合は、必ず事前にご説明します。",
                 },
                 {
                   q: "切った枝や草は処分してもらえますか？",
-                  a: "はい、基本的にお見積もりに処分費用を含めてご提示します。ご自身で処分される場合は、その分お安くすることも可能です。",
+                  a: "はい、基本的にお見積もりに処分費用を含めてご提示します。",
                 },
                 {
                   q: "どのくらいの期間で作業してもらえますか？",
-                  a: "繁忙期を除き、お問い合わせから1〜2週間程度で作業可能です。お急ぎの場合はご相談ください。できる限り対応いたします。",
+                  a: "繁忙期を除き、お問い合わせから1〜2週間程度で作業可能です。お急ぎの場合はご相談ください。",
                 },
                 {
                   q: "雨の日でも作業できますか？",
-                  a: "小雨程度であれば作業可能ですが、安全面を考慮し、大雨や強風の日は延期させていただく場合があります。その際は事前にご連絡いたします。",
+                  a: "小雨程度であれば作業可能ですが、安全面を考慮し、大雨や強風の日は延期させていただく場合があります。",
                 },
                 {
                   q: "支払い方法は？",
                   a: "現金またはお振込みでお願いしております。作業完了後、ご確認いただいてからのお支払いとなります。",
                 },
               ].map((item, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="bg-white rounded-xl shadow-sm border-0 px-6">
-                  <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline py-5">
+                <AccordionItem key={i} value={`item-${i}`} className="bg-white rounded-xl shadow-sm border-0 px-4 md:px-6">
+                  <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline py-4 md:py-5 text-sm md:text-base">
                     {item.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
+                  <AccordionContent className="text-muted-foreground pb-4 md:pb-5 text-xs md:text-sm">
                     {item.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -888,20 +793,20 @@ export default function Home() {
       </section>
 
       {/* Contact Form Section */}
-      <section id="contact" className="py-12 md:py-20 bg-muted">
+      <section id="contact" className="py-10 md:py-20 bg-muted">
         <div className="container">
-          <div className="reveal text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-1 md:mb-2">
               メールでのお問い合わせ
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-xs md:text-sm text-muted-foreground">
               24時間受付・12時間以内に返信いたします
             </p>
           </div>
           
           <div className="max-w-2xl mx-auto reveal">
             <Card className="border-0 shadow-lg">
-              <CardContent className="p-6 md:p-8">
+              <CardContent className="p-4 md:p-8">
                 <ContactForm />
               </CardContent>
             </Card>
@@ -910,25 +815,25 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-charcoal text-white">
+      <footer className="py-10 md:py-12 bg-charcoal text-white">
         <div className="container">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid gap-6 md:grid-cols-3 md:gap-8 mb-6 md:mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 bg-forest rounded-lg flex items-center justify-center">
-                  <TreeDeciduous className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-2 mb-3 md:mb-4">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-forest rounded-lg flex items-center justify-center">
+                  <TreeDeciduous className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </div>
-                <span className="font-bold text-xl">トトノ</span>
+                <span className="font-bold text-lg md:text-xl">トトノ</span>
               </div>
-              <p className="text-sm text-white/70 leading-relaxed">
-                茨城県桜川市を拠点に、庭木の剪定・伐採・草刈りを承ります。<br />
+              <p className="text-xs md:text-sm text-white/70 leading-relaxed">
+                茨城県桜川市を拠点に、庭木の剪定・伐採・草刈りを承ります。
                 地域密着の丁寧な対応で、お庭のお悩みを解決します。
               </p>
             </div>
             
             <div>
-              <h3 className="font-bold mb-4">事業者情報</h3>
-              <ul className="space-y-2 text-sm text-white/70">
+              <h3 className="font-bold mb-3 md:mb-4 text-sm md:text-base">事業者情報</h3>
+              <ul className="space-y-1 md:space-y-2 text-xs md:text-sm text-white/70">
                 <li>屋号：トトノ</li>
                 <li>代表：棟方 信行</li>
                 <li>本拠点：茨城県桜川市</li>
@@ -937,8 +842,8 @@ export default function Home() {
             </div>
             
             <div>
-              <h3 className="font-bold mb-4">お問い合わせ</h3>
-              <ul className="space-y-3 text-sm">
+              <h3 className="font-bold mb-3 md:mb-4 text-sm md:text-base">お問い合わせ</h3>
+              <ul className="space-y-2 md:space-y-3 text-xs md:text-sm">
                 <li>
                   <a href={`tel:${PHONE}`} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
                     <Phone className="w-4 h-4" />
@@ -961,29 +866,27 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="border-t border-white/10 pt-8 text-center text-sm text-white/50">
+          <div className="border-t border-white/10 pt-6 md:pt-8 text-center text-xs md:text-sm text-white/50">
             <p>© 2024 トトノ All rights reserved.</p>
           </div>
         </div>
       </footer>
 
-      {/* Floating CTA */}
+      {/* Floating CTA - モバイル最適化 */}
       <div className={`floating-cta ${isFloatingCtaVisible ? "" : "hidden"}`}>
-        <div className="container py-3">
-          <div className="flex items-center justify-center gap-3">
-            <a href={`tel:${PHONE}`} className="flex-1 sm:flex-none cta-button bg-coral text-white text-sm py-3 px-4 flex items-center justify-center gap-2">
-              <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">電話で相談</span>
-              <span className="sm:hidden">電話</span>
+        <div className="container py-2 md:py-3">
+          <div className="flex items-center justify-center gap-2 md:gap-3">
+            <a href={`tel:${PHONE}`} className="flex-1 bg-coral text-white text-sm md:text-base py-3 md:py-3 px-3 md:px-4 rounded-lg font-bold flex items-center justify-center gap-2 shadow-md">
+              <Phone className="w-4 h-4 md:w-5 md:h-5" />
+              <span>電話</span>
             </a>
-            <a href={LINE_URL} className="flex-1 sm:flex-none cta-button bg-[#06C755] text-white text-sm py-3 px-4 flex items-center justify-center gap-2">
-              <MessageCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">LINEで相談</span>
-              <span className="sm:hidden">LINE</span>
+            <a href={LINE_URL} className="flex-1 bg-[#06C755] text-white text-sm md:text-base py-3 md:py-3 px-3 md:px-4 rounded-lg font-bold flex items-center justify-center gap-2 shadow-md">
+              <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
+              <span>LINE</span>
             </a>
-            <a href={`mailto:${EMAIL}`} className="hidden sm:flex flex-1 sm:flex-none cta-button bg-forest text-white text-sm py-3 px-4 items-center justify-center gap-2">
-              <Mail className="w-4 h-4" />
-              メール
+            <a href="#contact" className="flex-1 bg-forest text-white text-sm md:text-base py-3 md:py-3 px-3 md:px-4 rounded-lg font-bold flex items-center justify-center gap-2 shadow-md">
+              <Mail className="w-4 h-4 md:w-5 md:h-5" />
+              <span>メール</span>
             </a>
           </div>
         </div>
