@@ -5,9 +5,10 @@
 
 import { useState, useRef, FormEvent } from "react";
 import { useLocation } from "wouter";
-import { Phone, Camera, X, Upload, AlertCircle, Send, Loader2, CheckCircle } from "lucide-react";
+import { Camera, X, Upload, AlertCircle, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useUtmParams } from "@/hooks/useUtmParams";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqnznbw";
 const MAX_FILES = 10;
@@ -111,6 +112,7 @@ export function ContactForm() {
   };
 
   const [, setLocation] = useLocation();
+  const { getUtmParamsForForm, getUtmSummary } = useUtmParams();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,6 +126,15 @@ export function ContactForm() {
       validFiles.forEach((uploadedFile, index) => {
         formData.append(`photo_${index + 1}`, uploadedFile.file);
       });
+
+      // UTMパラメータを追加（流入元追跡用）
+      const utmParams = getUtmParamsForForm();
+      Object.entries(utmParams).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      
+      // 流入元の概要も追加
+      formData.append("traffic_source", getUtmSummary());
 
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
