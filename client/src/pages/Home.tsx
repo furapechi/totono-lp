@@ -12,8 +12,12 @@ import { Phone, MessageCircle, Mail, Check, ChevronRight, Clock, MapPin, Shield,
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ContactForm } from "@/components/ContactForm";
+import { ContactFormSupabase } from "@/components/ContactFormSupabase";
 import { LazyImage, OptimizedImage } from "@/components/LazyImage";
+import { PriceSimulator } from "@/components/PriceSimulator";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 // Contact info
 const PHONE = "090-5306-0197";
@@ -63,8 +67,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* スクロール進捗バー */}
+      <ScrollProgressBar />
+      
+      {/* Exit Intentポップアップ */}
+      <ExitIntentPopup delay={5000} />
+      
+      {/* カウントダウンタイマーバナー */}
+      <div className="fixed top-0 left-0 right-0 z-[60]">
+        <CountdownTimer />
+      </div>
+      
       {/* Header - モバイル最適化 */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
+      <header className="fixed top-[52px] md:top-[56px] left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
         <div className="container flex items-center justify-between h-14 md:h-16">
           <a href="#" className="flex items-center gap-2">
             <div className="w-8 h-8 md:w-10 md:h-10 bg-forest rounded-lg flex items-center justify-center">
@@ -122,114 +137,143 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hero Section - モバイル完全最適化 */}
-      <section ref={heroRef} className="relative pt-20 md:pt-24 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          {/* Desktop image - priority loading for hero */}
-          <img 
-            src="/images/hero-team-desktop.jpg" 
-            alt="トトノのスタッフ" 
-            className="hidden md:block w-full h-full object-cover object-center"
-            fetchPriority="high"
-            decoding="async"
-          />
-          {/* Mobile image - priority loading for hero */}
-          <img 
-            src="/images/hero-team-mobile.jpg" 
-            alt="トトノのスタッフ" 
-            className="md:hidden w-full h-full object-cover object-top"
-            fetchPriority="high"
-            decoding="async"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40 md:to-transparent" />
-        </div>
-        
-        <div className="relative z-10 container py-8 md:py-20 lg:py-28">
-          <div className="max-w-2xl">
-            {/* モバイル: シンプルなバッジ */}
-            <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
-              <span className="inline-flex items-center gap-1.5 bg-coral text-white px-3 py-1 rounded-full text-xs md:text-sm font-bold">
-                <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-full w-full bg-white"></span>
+      {/* Hero Section - 完全リニューアル版（左右分割レイアウト） */}
+      <section ref={heroRef} className="relative pt-[108px] md:pt-[120px] min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-120px)] py-8 lg:py-0">
+            {/* 左側: テキストコンテンツ */}
+            <div className="order-2 lg:order-1">
+              {/* バッジ */}
+              <div className="flex flex-wrap gap-2 mb-4 lg:mb-6">
+                <span className="inline-flex items-center gap-1.5 bg-coral text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-md">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-full w-full bg-white"></span>
+                  </span>
+                  即日対応可能
                 </span>
-                即日対応可能
-              </span>
-              <span className="inline-flex items-center gap-1 bg-white/20 text-white backdrop-blur-sm px-3 py-1 rounded-full text-xs md:text-sm">
-                <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-                茨城・栃木・千葉
-              </span>
-            </div>
-            
-            {/* Main headline - モバイル最適化 */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-3 md:mb-4">
-              お庭の困りごと、<br />
-              <span className="text-coral">1本から</span>スッキリ解決
-            </h1>
-            
-            <p className="text-sm sm:text-base md:text-xl text-white/90 mb-4 md:mb-6 leading-relaxed">
-              庭木の剪定・伐採・草刈りなら地元密着の「トトノ」へ。
-              <span className="hidden sm:inline"><br /></span>
-              写真を送るだけで概算見積もりOK。
-            </p>
-            
-            {/* 実績数 - モバイルは2列 */}
-            <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
-                <div className="text-xl md:text-2xl font-black text-white">500<span className="text-sm md:text-lg">+</span></div>
-                <div className="text-[10px] md:text-xs text-white/70">累計対応件数</div>
+                <span className="inline-flex items-center gap-1.5 bg-forest text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-md">
+                  <MapPin className="w-4 h-4" />
+                  茨城・栃木・千葉
+                </span>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
-                <div className="text-xl md:text-2xl font-black text-white">4.8</div>
-                <div className="text-[10px] md:text-xs text-white/70">お客様満足度</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 md:p-3 text-center">
-                <div className="text-xl md:text-2xl font-black text-white">98<span className="text-sm md:text-lg">%</span></div>
-                <div className="text-[10px] md:text-xs text-white/70">リピート率</div>
-              </div>
-            </div>
-            
-            {/* Trust badges - モバイルはコンパクト */}
-            <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
-              {["見積無料", "写真見積OK", "1本からOK", "追加料金なし"].map((text, i) => (
-                <div key={i} className="flex items-center gap-1 bg-white/10 backdrop-blur-sm px-2 md:px-3 py-1 rounded-full">
-                  <Check className="w-3 h-3 md:w-4 md:h-4 text-coral" />
-                  <span className="text-xs md:text-sm text-white">{text}</span>
+              
+              {/* メインヘッドライン */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-charcoal leading-tight mb-4 lg:mb-6">
+                お庭の困りごと、<br />
+                <span className="text-coral">１本から</span>スッキリ解決
+              </h1>
+              
+              {/* サブヘッドライン */}
+              <p className="text-base sm:text-lg lg:text-xl text-slate-600 mb-6 lg:mb-8 leading-relaxed">
+                庭木の剪定・伐採・草刈りなら地元密着の「トトノ」へ。<br className="hidden sm:block" />
+                写真を送るだけで概算見積もりOK。
+              </p>
+              
+              {/* 実績数 */}
+              <div className="grid grid-cols-3 gap-3 lg:gap-4 mb-6 lg:mb-8">
+                <div className="bg-white rounded-xl p-3 lg:p-4 text-center shadow-md border border-slate-100">
+                  <div className="text-2xl lg:text-3xl font-black text-forest">500<span className="text-lg">+</span></div>
+                  <div className="text-xs lg:text-sm text-slate-500">累計対応件数</div>
                 </div>
-              ))}
+                <div className="bg-white rounded-xl p-3 lg:p-4 text-center shadow-md border border-slate-100">
+                  <div className="text-2xl lg:text-3xl font-black text-forest">4.8</div>
+                  <div className="text-xs lg:text-sm text-slate-500">お客様満足度</div>
+                </div>
+                <div className="bg-white rounded-xl p-3 lg:p-4 text-center shadow-md border border-slate-100">
+                  <div className="text-2xl lg:text-3xl font-black text-forest">98<span className="text-lg">%</span></div>
+                  <div className="text-xs lg:text-sm text-slate-500">リピート率</div>
+                </div>
+              </div>
+              
+              {/* 信頼性バッジ */}
+              <div className="flex flex-wrap gap-2 mb-6 lg:mb-8">
+                {["見積無料", "写真見積OK", "1本からOK", "追加料金なし"].map((text, i) => (
+                  <div key={i} className="flex items-center gap-1.5 bg-forest/10 px-3 py-1.5 rounded-full">
+                    <Check className="w-4 h-4 text-forest" />
+                    <span className="text-sm font-medium text-forest">{text}</span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* CTAボタン */}
+              <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
+                <a 
+                  href={`tel:${PHONE}`} 
+                  className="flex-1 bg-coral hover:bg-coral/90 text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 relative group"
+                >
+                  <Phone className="w-6 h-6 group-hover:animate-pulse" />
+                  <span>今すぐ電話で相談</span>
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-charcoal text-xs font-bold px-2 py-0.5 rounded-full shadow-md animate-bounce">無料</span>
+                </a>
+                <a 
+                  href={LINE_URL} 
+                  className="flex-1 bg-[#06C755] hover:bg-[#05b34c] text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 relative group"
+                >
+                  <MessageCircle className="w-6 h-6 group-hover:animate-pulse" />
+                  <span>LINEで写真を送る</span>
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-charcoal text-xs font-bold px-2 py-0.5 rounded-full shadow-md">30秒</span>
+                </a>
+              </div>
+              
+              {/* 電話受付時間 */}
+              <p className="text-sm text-slate-500 mt-4 flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                7:00〜20:00（不在時は折り返します）
+              </p>
             </div>
             
-            {/* CTA buttons - モバイル最適化（大きく、タップしやすく） */}
-            <div className="flex flex-col gap-3">
-              <a href={`tel:${PHONE}`} className="cta-button-mobile bg-coral text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg relative">
-                <Phone className="w-6 h-6" />
-                <span>今すぐ電話で相談</span>
-                <span className="absolute -top-2 -right-2 bg-white text-coral text-xs font-bold px-2 py-0.5 rounded-full shadow-md">無料</span>
-              </a>
-              <a href={LINE_URL} className="cta-button-mobile bg-[#06C755] text-white flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold text-lg shadow-lg relative">
-                <MessageCircle className="w-6 h-6" />
-                <span>LINEで写真を送る</span>
-                <span className="absolute -top-2 -right-2 bg-white text-[#06C755] text-xs font-bold px-2 py-0.5 rounded-full shadow-md">30秒</span>
-              </a>
+            {/* 右側: 画像 */}
+            <div className="order-1 lg:order-2 relative">
+              <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl">
+                {/* Desktop image */}
+                <picture className="hidden lg:block">
+                  <source srcSet="/images/hero-team-desktop.webp" type="image/webp" />
+                  <img 
+                    src="/images/hero-team-desktop.jpg" 
+                    alt="トトノのスタッフ" 
+                    className="w-full h-auto aspect-[4/3] object-cover"
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                </picture>
+                {/* Mobile/Tablet image */}
+                <picture className="lg:hidden">
+                  <source srcSet="/images/hero-team-mobile.webp" type="image/webp" />
+                  <img 
+                    src="/images/hero-team-mobile.jpg" 
+                    alt="トトノのスタッフ" 
+                    className="w-full h-auto aspect-[3/4] sm:aspect-[4/3] object-cover object-top"
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                </picture>
+                
+                {/* オーバーレイバッジ */}
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-charcoal text-sm lg:text-base">地元密着の安心サポート</div>
+                      <div className="text-xs lg:text-sm text-slate-500">茨城県桜川市を拠点に、近隣への配慮も万全</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* 装飾要素 */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-coral/20 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-forest/20 rounded-full blur-2xl"></div>
             </div>
-            
-            <p className="text-xs md:text-sm text-white/70 mt-3 md:mt-4 text-center md:text-left">
-              📞 7:00〜20:00（不在時は折り返します）
-            </p>
           </div>
         </div>
         
-        {/* Scroll indicator - デスクトップのみ */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 scroll-indicator">
-          <span className="text-white/60 text-xs">詳しく見る</span>
-          <ChevronDown className="w-6 h-6 text-white/60" />
-        </div>
-        
-        {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="currentColor" className="text-background"/>
-          </svg>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden lg:flex flex-col items-center gap-2 animate-bounce">
+          <span className="text-slate-400 text-xs">詳しく見る</span>
+          <ChevronDown className="w-6 h-6 text-slate-400" />
         </div>
       </section>
 
@@ -533,6 +577,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 料金シミュレーターセクション */}
+      <section className="py-10 md:py-20 bg-gradient-to-b from-green-50 to-white">
+        <div className="container">
+          <div className="reveal text-center mb-6 md:mb-10">
+            <span className="badge bg-green-100 text-green-700 mb-3 md:mb-4 text-xs md:text-sm">
+              簡単見積り
+            </span>
+            <h2 className="text-xl md:text-3xl font-bold text-foreground mb-2 md:mb-4">
+              概算料金をチェック
+            </h2>
+            <p className="text-sm md:text-base text-muted-foreground">
+              サービス内容を選ぶだけで、おおよその料金がわかります
+            </p>
+          </div>
+          <div className="reveal">
+            <PriceSimulator />
+          </div>
+        </div>
+      </section>
+
       {/* Service Locations */}
       <section className="py-10 md:py-20 bg-muted">
         <div className="container">
@@ -824,7 +888,7 @@ export default function Home() {
           <div className="max-w-2xl mx-auto reveal">
             <Card className="border-0 shadow-lg">
               <CardContent className="p-4 md:p-8">
-                <ContactForm />
+                <ContactFormSupabase />
               </CardContent>
             </Card>
           </div>

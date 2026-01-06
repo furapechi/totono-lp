@@ -33,10 +33,30 @@
     <!-- Google Search Console Verification (placeholder - replace with actual code) -->
     <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
     
-    <!-- Fonts -->
+    <!-- Critical CSS - Inline for faster FCP -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-text-size-adjust:100%}
+      body{background:#fff;color:#1a1a1a;min-height:100vh}
+      img{max-width:100%;height:auto;display:block}
+      /* Hero skeleton */
+      .hero-skeleton{position:relative;min-height:100vh;background:linear-gradient(135deg,#1e5631 0%,#2d7a46 100%)}
+    </style>
+    
+    <!-- Preload hero images for faster LCP -->
+    <link rel="preload" as="image" href="/images/hero-team-desktop.webp" type="image/webp" media="(min-width: 768px)" />
+    <link rel="preload" as="image" href="/images/hero-team-mobile.webp" type="image/webp" media="(max-width: 767px)" />
+    
+    <!-- Fonts - Optimized: reduced weights (400, 700 only) + async loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <!-- Async font loading to prevent render blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+    </noscript>
     
     <!-- Structured Data (JSON-LD) - LocalBusiness Schema -->
     <script type="application/ld+json">
