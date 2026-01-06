@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ContactForm } from "@/components/ContactForm";
+import { LazyImage, OptimizedImage } from "@/components/LazyImage";
 
 // Contact info
 const PHONE = "090-5306-0197";
@@ -124,17 +125,21 @@ export default function Home() {
       {/* Hero Section - モバイル完全最適化 */}
       <section ref={heroRef} className="relative pt-20 md:pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Desktop image */}
+          {/* Desktop image - priority loading for hero */}
           <img 
             src="/images/hero-team-desktop.jpg" 
             alt="トトノのスタッフ" 
             className="hidden md:block w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
           />
-          {/* Mobile image */}
+          {/* Mobile image - priority loading for hero */}
           <img 
             src="/images/hero-team-mobile.jpg" 
             alt="トトノのスタッフ" 
             className="md:hidden w-full h-full object-cover object-top"
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40 md:to-transparent" />
         </div>
@@ -491,9 +496,13 @@ export default function Home() {
             ].map((item, i) => (
               <Card key={i} className="card-hover border-0 shadow-md overflow-hidden">
                 {item.image && (
-                  <div className="h-32 md:h-40 overflow-hidden">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                  </div>
+                  <LazyImage 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="h-32 md:h-40"
+                    threshold={0.1}
+                    rootMargin="100px"
+                  />
                 )}
                 <CardContent className="p-4 md:p-6">
                   <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
@@ -598,9 +607,13 @@ export default function Home() {
           
           <div className="grid gap-4 md:grid-cols-2 md:gap-6 reveal">
             <Card className="overflow-hidden border-0 shadow-md">
-              <div className="aspect-video">
-                <img src="/images/grass-cutting.jpg" alt="草刈りビフォーアフター" className="w-full h-full object-cover" />
-              </div>
+              <LazyImage 
+                src="/images/grass-cutting.jpg" 
+                alt="草刈りビフォーアフター" 
+                className="aspect-video"
+                threshold={0.1}
+                rootMargin="100px"
+              />
               <CardContent className="p-4 md:p-6">
                 <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">草刈り｜桜川市 S様邸</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
@@ -614,9 +627,13 @@ export default function Home() {
             </Card>
             
             <Card className="overflow-hidden border-0 shadow-md">
-              <div className="aspect-video">
-                <img src="/images/before-after-garden.jpg" alt="庭木剪定ビフォーアフター" className="w-full h-full object-cover" />
-              </div>
+              <LazyImage 
+                src="/images/before-after-garden.jpg" 
+                alt="庭木剪定ビフォーアフター" 
+                className="aspect-video"
+                threshold={0.1}
+                rootMargin="100px"
+              />
               <CardContent className="p-4 md:p-6">
                 <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">庭木剪定｜筑西市 T様邸</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
