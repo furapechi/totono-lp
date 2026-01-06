@@ -123,30 +123,24 @@ export default function Home() {
       </div>
 
       {/* Hero Section - モバイル完全最適化 */}
-      <section ref={heroRef} className="relative pt-20 md:pt-24 min-h-[600px] md:min-h-[700px] overflow-hidden">
+      <section ref={heroRef} className="relative pt-20 md:pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Desktop image - priority loading for hero with WebP */}
-          <picture className="hidden md:block absolute inset-0">
-            <source srcSet="/images/hero-team-desktop.webp" type="image/webp" />
-            <img 
-              src="/images/hero-team-desktop.jpg" 
-              alt="トトノのスタッフ" 
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
-          {/* Mobile image - priority loading for hero with WebP */}
-          <picture className="md:hidden absolute inset-0">
-            <source srcSet="/images/hero-team-mobile.webp" type="image/webp" />
-            <img 
-              src="/images/hero-team-mobile.jpg" 
-              alt="トトノのスタッフ" 
-              className="absolute inset-0 w-full h-full object-cover object-top"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
+          {/* Desktop image - priority loading for hero */}
+          <img 
+            src="/images/hero-team-desktop.jpg" 
+            alt="トトノのスタッフ" 
+            className="hidden md:block w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
+          />
+          {/* Mobile image - priority loading for hero */}
+          <img 
+            src="/images/hero-team-mobile.jpg" 
+            alt="トトノのスタッフ" 
+            className="md:hidden w-full h-full object-cover object-top"
+            fetchPriority="high"
+            decoding="async"
+          />
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-charcoal/90 via-charcoal/70 to-charcoal/40 md:to-transparent" />
         </div>
         

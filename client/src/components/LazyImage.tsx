@@ -3,24 +3,12 @@
  * 
  * 機能:
  * - Intersection Observer APIによる遅延読み込み
- * - WebP形式の自動検出とフォールバック
  * - プレースホルダー表示（ぼかし効果）
  * - フェードインアニメーション
  * - ネイティブlazy loading属性のフォールバック
  */
 
 import { useState, useRef, useEffect } from "react";
-
-// JPG/PNG画像のパスからWebPパスを生成
-function getWebPPath(src: string): string | null {
-  if (src.endsWith('.jpg') || src.endsWith('.jpeg')) {
-    return src.replace(/\.jpe?g$/, '.webp');
-  }
-  if (src.endsWith('.png')) {
-    return src.replace(/\.png$/, '.webp');
-  }
-  return null;
-}
 
 interface LazyImageProps {
   src: string;
@@ -41,9 +29,7 @@ export function LazyImage({
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const webpSrc = getWebPPath(src);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,21 +47,15 @@ export function LazyImage({
       }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
     }
 
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
-  const handleError = () => {
-    setHasError(true);
-    setIsLoaded(true);
-  };
-
   return (
     <div
-      ref={containerRef}
       className={`relative overflow-hidden ${className}`}
       style={{ backgroundColor: placeholderColor }}
     >
@@ -84,30 +64,19 @@ export function LazyImage({
         <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
       )}
       
-      {/* エラー時のフォールバック */}
-      {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <span className="text-gray-400 text-sm">画像を読み込めません</span>
-        </div>
-      )}
-      
-      {/* 実際の画像 - WebP対応 */}
-      {isInView && !hasError && (
-        <picture>
-          {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            onLoad={() => setIsLoaded(true)}
-            onError={handleError}
-            className={`w-full h-full object-cover transition-opacity duration-500 ${
-              isLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        </picture>
-      )}
+      {/* 実際の画像 */}
+      <img
+        ref={imgRef}
+        src={isInView ? src : undefined}
+        data-src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${
+          isLoaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
     </div>
   );
 }
@@ -117,7 +86,6 @@ export function LazyImage({
  * 
  * 機能:
  * - レスポンシブ画像（srcset対応準備）
- * - WebP形式の自動検出とフォールバック
  * - 遅延読み込み
  * - アスペクト比の維持
  */
@@ -140,10 +108,7 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
-  const [hasError, setHasError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const webpSrc = getWebPPath(src);
-  const mobileWebpSrc = mobileSrc ? getWebPPath(mobileSrc) : null;
 
   useEffect(() => {
     if (priority) return;
@@ -170,11 +135,6 @@ export function OptimizedImage({
     return () => observer.disconnect();
   }, [priority]);
 
-  const handleError = () => {
-    setHasError(true);
-    setIsLoaded(true);
-  };
-
   return (
     <div
       ref={containerRef}
@@ -186,30 +146,11 @@ export function OptimizedImage({
         <div className="absolute inset-0 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 animate-shimmer" />
       )}
 
-      {/* エラー時のフォールバック */}
-      {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <span className="text-gray-400 text-sm">画像を読み込めません</span>
-        </div>
-      )}
-
-      {isInView && !hasError && (
+      {isInView && (
         <picture>
-          {/* モバイル用WebP */}
-          {mobileWebpSrc && (
-            <source 
-              media="(max-width: 767px)" 
-              srcSet={mobileWebpSrc} 
-              type="image/webp" 
-            />
-          )}
-          {/* モバイル用フォールバック */}
           {mobileSrc && (
             <source media="(max-width: 767px)" srcSet={mobileSrc} />
           )}
-          {/* デスクトップ用WebP */}
-          {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
-          {/* デスクトップ用フォールバック */}
           <img
             src={src}
             alt={alt}
@@ -217,7 +158,6 @@ export function OptimizedImage({
             decoding="async"
             fetchPriority={priority ? "high" : "auto"}
             onLoad={() => setIsLoaded(true)}
-            onError={handleError}
             className={`w-full h-full object-cover transition-opacity duration-300 ${
               isLoaded ? "opacity-100" : "opacity-0"
             }`}
